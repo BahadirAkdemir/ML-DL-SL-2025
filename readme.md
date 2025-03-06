@@ -29,12 +29,14 @@ Here are some of the Statistical Learning projects and exercises I have worked o
 ## Resources
 During my learning journey, I have benefited from various resources. Below is a list of some of the key resources that have helped me:
 
-1. **Introduction to Statistical Learning (Python)**
+1. **Introduction to Statistical Learning with Applications in Python (Springer)**
    - Author: Gareth James, Daniela Witten, Trevor Hastie, Rob Tibshirani
    - Book Link: [Here](https://www.statlearning.com/)
    - Lab Solutions I have benefited: [Here](https://islp.readthedocs.io/en/latest/)
    - Exercise Solutions I have benefited: [Here](https://botlnec.github.io/islp/)
-   - Description: Amazing resource for ML, Statistics and Data Science. I want to thank all people who prepared these resources. 
+   - Description: Amazing resource for ML, Statistics and Data Science. I want to thank all people who prepared these resources.
+
+2. **Introduction to Deep Learning by Eugene Charniak (MIT Press)**
 
 > **Note:** There are several other resources that I have benefited from but unfortunately, I do not remember all of them. I would like to extend my gratitude to all the authors, instructors, and contributors of those resources.
 
