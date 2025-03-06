@@ -19,6 +19,7 @@ Here are some of the Machine Learning projects and exercises I have worked on:
 
 ### Deep Learning
 Here are some of the Deep Learning projects and exercises I have worked on:
+1. **Introduction to Deep Learning by Eugene Charniak**
 
 
 ### Statistical Learning
