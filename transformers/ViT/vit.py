@@ -3,7 +3,7 @@ import torch
 import torch.nn as nn
 import einops
 
-d_model = 512
+d_model = 768
 
 class MultiHeadAttentionBlock(nn.Module):
     def __init__(self, d_model: int, h: int, dropout: float):
@@ -78,7 +78,7 @@ class LayerNormalization(nn.Module):
 
 
 class FeedForwardNetwork(nn.Module):
-    def __init__(self, d_model: int = 512, dff: int = 2048, dropout: float = 0):
+    def __init__(self, d_model: int = 768, dff: int = 3072, dropout: float = 0):
         super(FeedForwardNetwork, self).__init__()
 
         self.d_model = d_model
@@ -109,7 +109,7 @@ class ResidualConnection(nn.Module):
 
     def forward(self, x, sublayer):
         # return x + self.dropout(sublayer(self.norm(x)))
-        return x + self.dropout(self.norm(sublayer(x)))
+        return self.norm(x + self.dropout(sublayer(x)))
 
 
 class InputEmbedding(nn.Module):
@@ -204,7 +204,7 @@ class ViT(nn.Module):
         return self.encode(img, None)
 
 
-def build_transformer(img: torch.Tensor, patch_size= 16, d_model=512, dropout=0.1, Nx=6, h=16, d_ff=2048):
+def build_transformer(img: torch.Tensor, patch_size= 16, d_model=768, dropout=0.1, Nx=12, h=12, d_ff=3072):
 
 
     # Creating Input Embeddings: This part converts the text input/ground truth to meaningful float vector space
