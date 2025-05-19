@@ -23,6 +23,8 @@ Here are some of the Deep Learning projects and exercises I have worked on:
    - Implementation of SimCLR v2 (A Simple Framework for Contrastive Learning of Visual Representations)
 2. **Transformers**
    - Implementation and experiments with Transformer architecture
+   - Transformer - Pytorch (Basic)
+   - ViT - Pytorch
 3. **Kolmogorov Arnold Networks (KANs)**
    - Implementation of KANs, a novel neural network architecture
 
