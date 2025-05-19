@@ -19,11 +19,17 @@ Here are some of the Machine Learning projects and exercises I have worked on:
 
 ### Deep Learning
 Here are some of the Deep Learning projects and exercises I have worked on:
-
+1. **SimCLRv2-Pytorch**
+   - Implementation of SimCLR v2 (A Simple Framework for Contrastive Learning of Visual Representations)
+2. **Transformers**
+   - Implementation and experiments with Transformer architecture
+3. **Kolmogorov Arnold Networks (KANs)**
+   - Implementation of KANs, a novel neural network architecture
 
 ### Statistical Learning
 Here are some of the Statistical Learning projects and exercises I have worked on:
 1. **ISLP Book Exercises/Labs**
+   - Solutions and implementations from the Introduction to Statistical Learning book
 
 ## Resources
 During my learning journey, I have benefited from various resources. Below is a list of some of the key resources that have helped me:
