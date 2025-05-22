@@ -1,0 +1,20 @@
+[project]
+name = "neuroknife"
+version = "0.1.0"
+description = "Swiss Army Knife toolkit for Deep Learning with PyTorch and TensorFlow"
+authors = [{ name = "Reis, Kral" }]
+dependencies = [
+    "torch",
+    "tensorflow",
+    "numpy",
+    "opencv-python",
+    "albumentations",
+    "scikit-learn"
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["neuroknife"]
