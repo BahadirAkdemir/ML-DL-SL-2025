@@ -1,37 +1,41 @@
-# Transformer Language Model Training
+# Transformer Language Model Components
 
-A clean, well-designed training pipeline for a transformer-based language model with comprehensive features for text generation and analysis.
+A collection of transformer model components and utilities for building and experimenting with language models.
 
-## Features
+## Project Components
 
-### Training Pipeline
-- ✅ **Data Loading & Splitting**: Automatic train/validation split from `TinyStories.txt`, `data.txt` or `example.txt`
-- ✅ **Optimized Dataset**: Uses `GPTDatasetV1` from `data.py` with configurable overlap
-- ✅ **Tokenization**: GPT-2 compatible tokenizer using tiktoken
-- ✅ **Cross Entropy Loss**: Standard language modeling objective
-- ✅ **Perplexity Calculation**: Automatic perplexity metrics during evaluation
-- ✅ **AdamW Optimizer**: State-of-the-art optimizer with weight decay
-- ✅ **Model Architecture**: Transformer decoder from `model.py` with GPT-2 parameters
-- ✅ **Pre-trained Weights**: Load and fine-tune official OpenAI GPT-2 weights
+### Core Files
+- ✅ **Model Architecture**: `model.py` - Complete transformer implementation with GPT-2 compatible architecture
+- ✅ **Tokenization**: `tokenizer.py` - GPT-2 compatible tokenizer using tiktoken
+- ✅ **Main Entry**: `main.py` - Basic entry point for the project
+- ✅ **Configuration**: `pyproject.toml` - Project configuration and dependencies
 
-### Training Features
-- ✅ **Gradient Clipping**: Prevents exploding gradients
-- ✅ **Periodic Evaluation**: Configurable evaluation frequency
-- ✅ **Model Checkpointing**: Automatic model saving during training
-- ✅ **Progress Tracking**: tqdm progress bars and detailed logging
-- ✅ **Loss Plotting**: Automatic generation of training/validation loss plots
+### Model Architecture Features
 
-### Text Generation
-- ✅ **Temperature Scaling**: Control randomness in generation
-- ✅ **Top-K Sampling**: Limit sampling to top-k most likely tokens
-- ✅ **Top-P (Nucleus) Sampling**: Dynamic vocabulary size based on cumulative probability
-- ✅ **Multiple Decoding Strategies**: Compare different generation approaches
+The `model.py` file contains a comprehensive transformer implementation with:
 
-### Monitoring & Analysis
-- ✅ **Real-time Generation**: Generate examples during training
-- ✅ **Loss Visualization**: Matplotlib plots saved automatically
-- ✅ **Model Statistics**: Parameter counting and model analysis
-- ✅ **Reproducibility**: Fixed random seeds for consistent results
+- 🏗️ **Complete Transformer Stack**: Input embeddings, positional encoding, decoder blocks, and output projection
+- 🎯 **Multi-Head Attention**: Efficient attention mechanism with configurable heads
+- 🔄 **Feed-Forward Networks**: Position-wise feed-forward layers with GELU activation
+- 📏 **Layer Normalization**: Pre-norm architecture for stable training
+- 🔗 **Residual Connections**: Skip connections for gradient flow
+- 🎭 **Causal Masking**: Proper autoregressive generation support
+- 🎲 **Text Generation**: Built-in generation methods with temperature control
+
+### Available Transformer Components
+
+| Component | Description | Location |
+|-----------|-------------|----------|
+| `InputEmbeddings` | Token embedding layer | `model.py` |
+| `PositionalEncoding` | Learnable position embeddings | `model.py` |
+| `MultiHeadAttentionBlock` | Self-attention mechanism | `model.py` |
+| `FeedForwardNetwork` | Position-wise FFN | `model.py` |
+| `LayerNormalization` | Custom layer norm | `model.py` |
+| `ResidualConnection` | Skip connections | `model.py` |
+| `DecoderBlock` | Complete transformer block | `model.py` |
+| `Decoder` | Stack of decoder blocks | `model.py` |
+| `ProjectionLayer` | Output vocabulary projection | `model.py` |
+| `Transformer` | Complete model assembly | `model.py` |
 
 ## Quick Start
 
@@ -40,219 +44,219 @@ A clean, well-designed training pipeline for a transformer-based language model 
 pip install -r requirements.txt
 ```
 
-### 2. Prepare Data
-Place your training text in `data.txt`, or the script will use `example.txt` as fallback.
-
-### 3. Run Training
+### 2. Basic Usage
 ```bash
-python train.py
+python main.py
 ```
 
-## GPT-2 Pre-trained Weights
-
-### Using Pre-trained Models
-
-The training script now supports loading and fine-tuning official OpenAI GPT-2 weights! This provides several advantages:
-
-- 🚀 **Faster convergence**: Start with learned representations
-- 📈 **Better performance**: Leverage massive pre-training dataset
-- 🎯 **Fine-tuning**: Adapt to your specific domain/task
-- 🔄 **Multiple sizes**: Choose from 124M to 1.5B parameters
-
-### Available Models
-
-| Model | Parameters | Description |
-|-------|------------|-------------|
-| `gpt2-small (124M)` | 124M | Original GPT-2 model, good for experimentation |
-| `gpt2-medium (355M)` | 355M | Larger model, better quality |
-| `gpt2-large (774M)` | 774M | High-quality generation |
-| `gpt2-xl (1558M)` | 1.5B | Largest model, best performance |
-
-### How to Use
-
-Simply modify the configuration in `train.py`:
-
+### 3. Model Creation Example
 ```python
-# Option 1: Train from scratch (default)
-USE_PRETRAINED = False
-
-# Option 2: Fine-tune pre-trained GPT-2 model
-USE_PRETRAINED = True
-MODEL_NAME = "gpt2-small (124M)"  # Choose your model size
-```
-
-### First Run Setup
-
-On first run with pre-trained weights, the script will:
-
-1. 📥 **Download**: Automatically download the GPT-2 weight loading script
-2. 🔄 **Fetch Weights**: Download official OpenAI weights for your chosen model
-3. 🗂️ **Cache**: Store weights locally in `gpt2/` directory for future use
-4. 🔄 **Map Weights**: Automatically map OpenAI weights to your model architecture
-5. ✅ **Ready**: Start fine-tuning immediately
-
-### Weight Mapping
-
-The script automatically handles the complex weight mapping between OpenAI's GPT-2 format and your model architecture:
-
-- **Token Embeddings**: `wte` → `InputEmbeddings.embedding`
-- **Position Embeddings**: `wpe` → `PositionalEncoding.pe`
-- **Attention Weights**: `blocks[i].attn` → `MultiHeadAttentionBlock`
-- **Feed-Forward**: `blocks[i].mlp` → `FeedForwardNetwork`
-- **Layer Norms**: `ln_1/ln_2` → `LayerNormalization`
-
-### Fine-tuning vs Training from Scratch
-
-| Aspect | Pre-trained | From Scratch |
-|--------|-------------|--------------|
-| **Speed** | ⚡ Fast convergence | 🐌 Slower convergence |
-| **Data Requirements** | 📊 Works with small datasets | 📈 Needs large datasets |
-| **Quality** | 🎯 High quality from start | 📈 Improves gradually |
-| **Learning Rate** | 🔽 Lower (1e-5) | ⬆️ Higher (3e-4) |
-| **Epochs** | 🔢 Fewer needed (5-10) | 🔢 More needed (20-50) |
-| **Use Case** | 🎯 Fine-tuning, adaptation | 🔬 Research, learning |
-
-## Configuration
-
-The training script includes a comprehensive configuration dictionary that you can modify:
-
-```python
-config = {
-    'seq_len': 128,           # Sequence length
-    'embedding_dim': 256,     # Model embedding dimension
-    'num_layers': 4,          # Number of transformer layers
-    'num_heads': 8,           # Number of attention heads
-    'dropout': 0.1,           # Dropout rate
-    'ffn_hidden_dim': 1024,   # Feed-forward network hidden dimension
-    'batch_size': 8,          # Training batch size
-    'learning_rate': 3e-4,    # Learning rate for AdamW
-    'num_epochs': 5,          # Number of training epochs
-    'eval_freq': 500,         # Evaluation frequency (steps)
-    'save_freq': 1000,        # Model saving frequency (steps)
-}
-```
-
-## Model Architecture
-
-The model uses a transformer decoder architecture with:
-- Multi-head self-attention
-- Position-wise feed-forward networks
-- Layer normalization
-- Residual connections
-- Learned positional encodings
-
-## Text Generation Examples
-
-The script demonstrates various decoding strategies:
-
-### Temperature Scaling
-- **Low temperature (0.5)**: More conservative, focused generation
-- **Standard temperature (1.0)**: Balanced creativity and coherence
-- **High temperature (1.5)**: More creative, diverse generation
-
-### Top-K Sampling
-- **Small K (10)**: Very focused vocabulary
-- **Medium K (50)**: Balanced vocabulary size
-- **Large K (100)**: Larger vocabulary, more diversity
-
-### Top-P (Nucleus) Sampling
-- Dynamic vocabulary size based on cumulative probability
-- Adapts to model confidence
-
-## Output Files
-
-The training process generates several files:
-
-1. **`training_losses.png`**: Loss plots showing training progress
-2. **`model_checkpoint_step_X.pt`**: Periodic model checkpoints
-3. **`final_trained_model.pt`**: Final trained model with full state
-4. **Console output**: Real-time training metrics and generated examples
-
-## Model Loading
-
-To load a trained model for inference:
-
-```python
-import torch
 from model import build_transformer
 from tokenizer import GPT2Tokenizer
 
-# Load the saved model
-checkpoint = torch.load('final_trained_model.pt', map_location='cpu')
-config = checkpoint['config']
+# Initialize tokenizer
 tokenizer = GPT2Tokenizer()
+vocab_size = tokenizer.encoding.n_vocab
 
-# Rebuild model architecture
+# Build a GPT-2 style model
 model = build_transformer(
-    input_vocab_size=tokenizer.encoding.n_vocab,
-    input_seq_len=config['seq_len'],
-    embedding_dim=config['embedding_dim'],
-    num_layers=config['num_layers'],
-    num_heads=config['num_heads'],
-    dropout=config['dropout'],
-    ffn_hidden_dim=config['ffn_hidden_dim']
+    input_vocab_size=vocab_size,
+    input_seq_len=1024,
+    embedding_dim=768,
+    num_layers=12,
+    num_heads=12,
+    dropout=0.1,
+    ffn_hidden_dim=3072
 )
 
-# Load trained weights
-model.load_state_dict(checkpoint['model_state_dict'])
-model.eval()
+print(f"Model created with {model.count_parameters():,} parameters")
 ```
+
+## Model Configurations
+
+### GPT-2 Compatible Sizes
+
+| Model Size | Parameters | Embedding Dim | Layers | Heads | Context Length |
+|------------|------------|---------------|---------|-------|----------------|
+| Small | 124M | 768 | 12 | 12 | 1024 |
+| Medium | 355M | 1024 | 24 | 16 | 1024 |
+| Large | 774M | 1280 | 36 | 20 | 1024 |
+| XL | 1.5B | 1600 | 48 | 25 | 1024 |
+
+### Custom Configuration Example
+```python
+# Custom smaller model for experimentation
+model = build_transformer(
+    input_vocab_size=50257,  # GPT-2 vocab size
+    input_seq_len=512,       # Shorter context
+    embedding_dim=256,       # Smaller embedding
+    num_layers=6,            # Fewer layers
+    num_heads=8,             # Fewer heads
+    dropout=0.1,
+    ffn_hidden_dim=1024      # Smaller FFN
+)
+```
+
+## Text Generation
+
+The model includes built-in text generation capabilities:
+
+### Basic Generation
+```python
+# Generate text with temperature control
+generated_text = model.generate_next(
+    input_text="The future of AI is",
+    max_length=50,
+    temperature=0.8
+)
+```
+
+### Advanced Generation Options
+- **Temperature Scaling**: Control randomness (0.1 = focused, 2.0 = creative)
+- **Causal Masking**: Proper autoregressive generation
+- **Token-by-token**: Step-by-step generation process
+
+## Tokenization
+
+The project uses a GPT-2 compatible tokenizer:
+
+```python
+from tokenizer import GPT2Tokenizer
+
+tokenizer = GPT2Tokenizer()
+
+# Encode text to tokens
+tokens = tokenizer.encode("Hello, world!")
+print(f"Tokens: {tokens}")
+
+# Decode tokens back to text
+text = tokenizer.decode(tokens)
+print(f"Decoded: {text}")
+
+# Vocabulary info
+print(f"Vocabulary size: {tokenizer.encoding.n_vocab}")
+```
+
+## Pre-trained Weights Support
+
+The model architecture is designed to be compatible with official GPT-2 weights:
+
+- ✅ **Weight Mapping**: Automatic mapping from OpenAI format
+- ✅ **Layer Compatibility**: Matching layer structure and naming
+- ✅ **Embedding Sharing**: Tied input/output embeddings
+- ✅ **Attention Format**: Compatible attention weight structure
+
+## Architecture Details
+
+### Attention Mechanism
+- Scaled dot-product attention
+- Multi-head parallel computation
+- Causal masking for autoregressive generation
+- Configurable number of attention heads
+
+### Feed-Forward Networks
+- Two-layer MLP with GELU activation
+- Typically 4x expansion ratio (hidden_dim = 4 * embedding_dim)
+- Dropout for regularization
+
+### Normalization and Residuals
+- Pre-normalization (LayerNorm before attention/FFN)
+- Residual connections around each sub-layer
+- Stable gradient flow through deep networks
+
+## Development Setup
+
+### Project Structure
+```
+.
+├── model.py              # Complete transformer implementation
+├── tokenizer.py          # GPT-2 tokenizer wrapper
+├── main.py              # Basic entry point
+├── requirements.txt      # Dependencies
+├── pyproject.toml       # Project configuration
+├── TinyStories-train.txt # Training data
+└── README.md            # This documentation
+```
+
+### Dependencies
+The project requires:
+- PyTorch (deep learning framework)
+- tiktoken (tokenization)
+- NumPy (numerical operations)
+- Other utilities (see `requirements.txt`)
 
 ## Advanced Features
 
-### Evaluation Metrics
-- **Cross Entropy Loss**: Standard language modeling loss
-- **Perplexity**: Intuitive metric for model performance (lower is better)
-- **Per-step tracking**: Monitor training progress in real-time
+### Model Analysis
+```python
+# Count parameters
+total_params = model.count_parameters()
+print(f"Total parameters: {total_params:,}")
 
-### Generation Control
-The `TextGenerator` class provides fine-grained control over text generation:
-- Adjustable sequence length
-- Multiple sampling strategies
-- Early stopping on special tokens
-
-### Training Monitoring
-- Progress bars with ETA
-- Real-time loss reporting
-- Automatic validation evaluation
-- Example generation during training
-
-## Performance Tips
-
-1. **GPU Usage**: The script automatically detects and uses CUDA if available
-2. **Memory Management**: Adjust `batch_size` based on available GPU memory
-3. **Sequence Length**: Longer sequences require more memory but may improve quality
-4. **Evaluation Frequency**: More frequent evaluation provides better monitoring but slows training
-
-## File Structure
-
+# Analyze model structure
+for name, module in model.named_modules():
+    if hasattr(module, 'weight'):
+        print(f"{name}: {module.weight.shape}")
 ```
-.
-├── train.py              # Main training script
-├── model.py              # Transformer model architecture
-├── tokenizer.py          # GPT-2 compatible tokenizer
-├── data.txt              # Training data (create this)
-├── example.txt           # Fallback training data
-├── requirements.txt      # Python dependencies
-└── README.md            # This file
-```
+
+### Memory Efficient Operations
+- Gradient checkpointing support
+- Efficient attention computation
+- Configurable dropout rates
+- Device-aware tensor operations
+
+## Use Cases
+
+### Research and Experimentation
+- Study transformer architectures
+- Experiment with different configurations
+- Understand attention mechanisms
+- Compare model sizes and performance
+
+### Educational Purposes
+- Learn transformer implementation details
+- Understand autoregressive language modeling
+- Practice with PyTorch and deep learning
+- Explore text generation techniques
+
+### Development and Prototyping
+- Build custom language models
+- Integrate with larger systems
+- Fine-tune for specific domains
+- Experiment with architectural modifications
+
+## Performance Considerations
+
+### Memory Usage
+- Model size scales quadratically with sequence length
+- Attention computation is O(n²) in sequence length
+- Larger models require more GPU memory
+- Batch size affects memory usage significantly
+
+### Computational Efficiency
+- Use appropriate device (CUDA/MPS/CPU)
+- Consider mixed precision training
+- Optimize batch sizes for hardware
+- Profile memory usage during development
 
 ## Troubleshooting
 
 ### Common Issues
+1. **Import errors**: Ensure all dependencies are installed
+2. **CUDA out of memory**: Reduce model size or batch size
+3. **Shape mismatches**: Check input dimensions and model configuration
+4. **Tokenization issues**: Verify text encoding and special tokens
 
-1. **CUDA out of memory**: Reduce `batch_size` or `seq_len`
-2. **No data file found**: Ensure `data.txt` exists or `example.txt` is present
-3. **Import errors**: Install all requirements with `pip install -r requirements.txt`
-4. **Slow training**: Consider using a GPU or reducing model size
-
-### Performance Optimization
-
-- Use mixed precision training for faster GPU training
-- Implement gradient accumulation for larger effective batch sizes
-- Consider using a learning rate scheduler
-- Implement early stopping based on validation loss
+### Performance Tips
+- Use GPU acceleration when available
+- Profile code to identify bottlenecks
+- Consider model parallelism for very large models
+- Implement gradient accumulation for large effective batch sizes
 
 ## License
 
 This implementation is for educational and research purposes.
+
+## Contributing
+
+Feel free to explore, modify, and extend the transformer implementation for your specific needs. The modular design makes it easy to experiment with different architectural choices.
